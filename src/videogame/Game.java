@@ -30,7 +30,8 @@ public class Game implements Runnable {
     private LinkedList<Enemy> enemies;                // to use a bad guy
     private LinkedList<Bomb> bombs;
     private KeyManager keyManager;  // to manage the keyboard
-    private boolean ingame;
+    private boolean ingame = true;
+    private boolean win = true;
     
     
     /**
@@ -80,7 +81,6 @@ public class Game implements Runnable {
                 enemies.add(enemy);
             }
          }
-         ingame = true;
          display.getJframe().addKeyListener(keyManager);
     }
     
@@ -120,7 +120,7 @@ public class Game implements Runnable {
     }
     
     private void tick() {
-        if(ingame){
+        if(ingame || !win){
             keyManager.tick();
             // Updating player
             player.tick();
@@ -133,25 +133,32 @@ public class Game implements Runnable {
                 Enemy enemy =  enemies.get(i);
                 enemy.tick();
                 
+                // Check if enemy reached ground level
+                if(enemy.y > 290){
+                    ingame = false;
+                }
                 // Check border collison 
                 if(enemy.x <= 0){
                     // For all enemies hange move left to true
                     for(int j = 0; j < enemies.size(); j++){
                         enemies.get(j).setMoveLeft(true);
-                        enemies.get(j).setY(enemies.get(j).getY()+5);
+                        enemies.get(j).setY(enemies.get(j).getY()+20);
                     }
                 }
                 if(enemy.x + enemy.getWidth() >= width){
                     // For all enemies hange move left to false
                     for(int j = 0; j < enemies.size(); j++){
                         enemies.get(j).setMoveLeft(false);
-                        enemies.get(j).setY(enemies.get(j).getY()+5);
+                        enemies.get(j).setY(enemies.get(j).getY()+20);
                     }
                 }
 
                 if(!bullets.isEmpty())
                     if(enemy.intersects(bullets.getFirst())){
                         enemies.remove(i);
+                        if(enemies.isEmpty()){
+                            win = true;
+                        }
                         bullets.removeFirst();
                     }
 
@@ -210,6 +217,13 @@ public class Game implements Runnable {
             g.setColor(Color.red);
             g.drawString("Lives: "+lives, 20, 40);
             g.drawString("Score: "+score, width/2, 40);*/
+            g.setFont(new Font("helvetica",1,25));
+            if(!ingame){
+               g.drawString("INVASION HAS STARTED!!!", 15, height/2);
+            }
+            if(win){
+               g.drawString("YOU SAVE THE EARTH!!!", 25, height/2);
+            }
             bs.show();
             g.dispose();
         }
