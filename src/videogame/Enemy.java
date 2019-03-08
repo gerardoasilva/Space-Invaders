@@ -18,6 +18,7 @@ public class Enemy extends Item{
     private int height;
     private Game game;
     private int xDir = 2;
+    private boolean moveLeft = true;
     
     public Enemy(int x, int y, int width, int height, Game game) {
         super(x, y);
@@ -33,7 +34,10 @@ public class Enemy extends Item{
     public int getHeight() {
         return height;
     }
-
+    
+    public void setMoveLeft(boolean state){
+        moveLeft = state;
+    }
 
 
     public void setWidth(int width) {
@@ -46,15 +50,12 @@ public class Enemy extends Item{
 
     @Override
     public void tick() {
-        if(x <= 0){
-            xDir = -xDir;
-            y += height;
+        if(moveLeft){
+            x++;
+        } else {
+            x--;
         }
-        if(x + width >= game.getWidth()){
-            xDir = -xDir;
-            y += height;
-        }
-        x += xDir;
+        
     }
 
     public Rectangle getPerimeter() {

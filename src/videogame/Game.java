@@ -132,6 +132,22 @@ public class Game implements Runnable {
             for (int i = 0; i < enemies.size(); i++) {
                 Enemy enemy =  enemies.get(i);
                 enemy.tick();
+                
+                // Check border collison 
+                if(enemy.x <= 0){
+                    // For all enemies hange move left to true
+                    for(int j = 0; j < enemies.size(); j++){
+                        enemies.get(j).setMoveLeft(true);
+                        enemies.get(j).setY(enemies.get(j).getY()+5);
+                    }
+                }
+                if(enemy.x + enemy.getWidth() >= width){
+                    // For all enemies hange move left to false
+                    for(int j = 0; j < enemies.size(); j++){
+                        enemies.get(j).setMoveLeft(false);
+                        enemies.get(j).setY(enemies.get(j).getY()+5);
+                    }
+                }
 
                 if(!bullets.isEmpty())
                     if(enemy.intersects(bullets.getFirst())){
