@@ -26,12 +26,12 @@ public class Game implements Runnable {
     private Thread thread;          // thread to create the game
     private boolean running;        // to set the game
     private Player player;          // to use a player
-    private LinkedList<Bullet> bullets;
-    private LinkedList<Enemy> enemies;                // to use a bad guy
-    private LinkedList<Bomb> bombs;
+    private LinkedList<Bullet> bullets; // to store the bullets
+    private LinkedList<Enemy> enemies;  // to store the enemies
+    private LinkedList<Bomb> bombs; // to store the bombs
     private KeyManager keyManager;  // to manage the keyboard
-    private boolean ingame = true;
-    private boolean win = true;
+    private boolean ingame = true;  // flag for game state
+    private boolean win = false;    // flag for game won
     
     
     /**
@@ -120,10 +120,11 @@ public class Game implements Runnable {
     }
     
     private void tick() {
-        if(ingame || !win){
+        if(ingame || win){
             keyManager.tick();
             // Updating player
             player.tick();
+            // Shoots if no bullets exist
             if(keyManager.space){
                 if(bullets.isEmpty())
                     bullets.add(new Bullet(player.x+player.getWidth()/2, player.y-1, 5,5,this));
@@ -142,20 +143,21 @@ public class Game implements Runnable {
                     // For all enemies hange move left to true
                     for(int j = 0; j < enemies.size(); j++){
                         enemies.get(j).setMoveLeft(true);
-                        enemies.get(j).setY(enemies.get(j).getY()+20);
+                        enemies.get(j).setY(enemies.get(j).getY()+5);
                     }
                 }
                 if(enemy.x + enemy.getWidth() >= width){
                     // For all enemies hange move left to false
                     for(int j = 0; j < enemies.size(); j++){
                         enemies.get(j).setMoveLeft(false);
-                        enemies.get(j).setY(enemies.get(j).getY()+20);
+                        enemies.get(j).setY(enemies.get(j).getY()+5);
                     }
                 }
-
+                // Checks collision from bullet with enemy
                 if(!bullets.isEmpty())
                     if(enemy.intersects(bullets.getFirst())){
                         enemies.remove(i);
+                        // Check if player has won the game
                         if(enemies.isEmpty()){
                             win = true;
                         }
@@ -197,14 +199,17 @@ public class Game implements Runnable {
             g.setColor(Color.green);
             g.drawLine(0,290,width,290);
             player.render(g);
+            // Render all enemies
             for (int i = 0; i < enemies.size(); i++) {
                 Enemy enemy =  enemies.get(i);
                 enemy.render(g);
             }
+            // Render all bombs
             for(int i = 0; i < bombs.size(); i++){
                 Bomb bomb = bombs.get(i);
                 bomb.render(g);
             }
+            // Render bullets (1)
             for(int i = 0; i < bullets.size();i++){
                 Bullet bullet = bullets.get(i);
                 if(bullet.y < 0){

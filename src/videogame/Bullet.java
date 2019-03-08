@@ -46,7 +46,7 @@ public class Bullet extends Item{
 
     @Override
     public void tick() {
-        --y;
+        y -= 4;
     }
 
     public Rectangle getPerimeter() {
