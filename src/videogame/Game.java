@@ -173,16 +173,18 @@ public class Game implements Runnable {
                         bullets.removeFirst();
                     }
                 
-                probability = (int) (Math.random() * 15 );
                 
-                // Check if alien can shoot
-                if (alien.canShoot() && probability == 5) {
-                    Bomb bomb = new Bomb(alien.getX(), alien.getY(), 5, 5, this);
-                    bombs.add(bomb);
-                    alien.canShoot(false);
+                
+                
+               
+                if (((int)(Math.random() * 15)) == 5 && alien.getBomb().isDead()) {
+                    alien.getBomb().isDead(false);
+                    alien.getBomb().setX(alien.getX()+alien.getWidth()/2);
+                    alien.getBomb().setY(alien.getY()+alien.getHeight());
                 }
-                
                 alien.tick();
+                alien.getBomb().tick();
+                
 
             }
             
@@ -192,6 +194,7 @@ public class Game implements Runnable {
                 bomb.tick();
                 
             }
+            
             // Update every bullet
             for(int i = 0; i < bullets.size(); i++){
                 Bullet bullet = bullets.get(i);
@@ -229,6 +232,7 @@ public class Game implements Runnable {
 //===============
             for (Alien alien: aliens) {
                 alien.render(g);
+                alien.getBomb().render(g);
             }
 //>>>>>>>>>>>>>>>
            
@@ -239,10 +243,10 @@ public class Game implements Runnable {
 //                bomb.render(g);
 //            }
 //==============            
-            // Render all bombs
-            for (Bomb bomb : bombs) {
-                bomb.render(g);
-            }
+//            // Render all bombs
+//            for (Bomb bomb : bombs) {
+//                bomb.render(g);
+//            }
 //>>>>>>>>>>>>>>>    
             
 //>>>>>>>>>>>>            
