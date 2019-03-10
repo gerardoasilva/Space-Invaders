@@ -174,17 +174,6 @@ public class Game implements Runnable {
                     }
                 
                 
-<<<<<<< HEAD
-                // Check if alien can shoot
-                if (alien.canShoot() && probability == 5) {
-                    Bomb bomb = new Bomb(alien.getX(), alien.getY(), 5, 10, this);
-                    bombs.add(bomb);
-                    alien.canShoot(false);
-                }
-=======
->>>>>>> eugenio
-                
-                
                
                 if (((int)(Math.random() * 15)) == 5 && alien.getBomb().isDead()) {
                     alien.getBomb().isDead(false);
@@ -241,7 +230,6 @@ public class Game implements Runnable {
 //===============
             for (Alien alien: aliens) {
                 alien.render(g);
-                alien.getBomb().render(g);
             }
 //>>>>>>>>>>>>>>>
            

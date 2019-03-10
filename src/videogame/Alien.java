@@ -24,6 +24,14 @@ public class Alien extends Item{
     private Animation explosion;
     private boolean canShoot;
     
+    /**
+     * consturctor of the alien class
+     * @param x to set horizontal initial position of alien
+     * @param y to set vertical initial position of alien
+     * @param width to set width of alien
+     * @param height to set height of alien
+     * @param game access to the game
+     */
     public Alien(int x, int y, int width, int height, Game game) {
         super(x, y);
         this.width = width;
@@ -34,6 +42,7 @@ public class Alien extends Item{
         canShoot = true;
     }
 
+    // Getters and setters fot the provate attributes
     public int getWidth() {
         return width;
     }
@@ -89,6 +98,10 @@ public class Alien extends Item{
 //        }
 //===========
         
+        if (!getBomb().isDead()) {
+            bomb.tick();
+        }
+
         setX(getX() + xDir);
 //>>>>>>>>>>>>>>>
     
@@ -114,5 +127,6 @@ public class Alien extends Item{
     @Override
     public void render(Graphics g) {
         g.drawImage(Assets.alien, getX(), getY(), getWidth(), getHeight(), null);
+        bomb.render(g);
     }
 }

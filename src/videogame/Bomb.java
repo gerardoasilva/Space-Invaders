@@ -33,7 +33,7 @@ public class Bomb extends Item {
         this.width = width;
         this.height = height;
         this.game = game;
-        dead = false;
+        dead = true;
     }
 
     // Getters and setters
