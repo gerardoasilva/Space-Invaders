@@ -19,7 +19,7 @@ public class Bomb extends Item {
     private Game game;  // to store the game 
     
     /**
-     * Constructor of Bomb oject
+     * Constructor of Bomb object
      * @param x for horizontal initial position
      * @param y for vertical initial position 
      * @param width to set width of object
