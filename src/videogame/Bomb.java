@@ -89,8 +89,9 @@ public class Bomb extends Item {
     public void tick() {
         if (!isDead()) {
             
-            if (getY()+getHeight() > 290) {
+            if (getY()+getHeight() >= 290) {
                 isDead(true);
+                setY(300);
             }
             // Moves the bomb constantly
             setY(getY()+1);

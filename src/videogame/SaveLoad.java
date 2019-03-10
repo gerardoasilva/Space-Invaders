@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import java.io.BufferedReader;
 import java.util.LinkedList;
 
-
 /**
  *
  * @author eugenio
@@ -21,7 +20,7 @@ import java.util.LinkedList;
 public class SaveLoad {
 
     private Game game;
-    
+
     SaveLoad(Game game) {
         this.game = game;
     }
@@ -30,14 +29,19 @@ public class SaveLoad {
         try {
             //Creates new file to save the game data
             FileWriter fw = new FileWriter("save.txt");
-            //Saves every value of every object in the game
+            //Saves every value of each object in the game
             fw.write(String.valueOf(game.getPlayer().getX()) + "\n");
             fw.write(String.valueOf(game.getPlayer().getY()) + "\n");
             
-            fw.write(String.valueOf(game.bullets.getFirst().getX()) + "\n");
-            fw.write(String.valueOf(game.bullets.getFirst().getY()) + "\n");
+            // Save bullets
+            fw.write(String.valueOf(game.bullets.size()) + "\n");
+            if (!game.bullets.isEmpty()) {
+                fw.write(String.valueOf(game.bullets.getFirst().getX()) + "\n");
+                fw.write(String.valueOf(game.bullets.getFirst().getY()) + "\n");
+            }
             
-            fw.write(String.valueOf(game.getAliens())+ "\n");
+            // Saves aliens
+            fw.write(String.valueOf(game.getAliens()) + "\n");
             for (int i = 0; i < game.getAliens(); i++) {
                 fw.write(String.valueOf(game.aliens.get(i).getX()) + "\n");
                 fw.write(String.valueOf(game.aliens.get(i).getY()) + "\n");
@@ -45,12 +49,7 @@ public class SaveLoad {
                 fw.write(String.valueOf(game.aliens.get(i).canShoot()) + "\n");
             }
             
-            fw.write(String.valueOf(game.getBombs()) + "\n");
-            for (int i = 0; i < game.getBombs(); i++) {
-                fw.write(String.valueOf(game.bombs.get(i).getX()) + "\n");
-                fw.write(String.valueOf(game.bombs.get(i).getY()) + "\n");
-            }
-            
+            // Save exlposions
             fw.write(String.valueOf(game.explosions.size()) + "\n");
             for (int i = 0; i < game.explosions.size(); i++) {
                 fw.write(String.valueOf(game.explosions.get(i).getX()) + "\n");
@@ -61,7 +60,6 @@ public class SaveLoad {
         } catch (IOException ex) {
             Logger.getLogger(SaveLoad.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     void loadGame() {
@@ -72,44 +70,39 @@ public class SaveLoad {
             game.getPlayer().setX(Integer.parseInt(br.readLine()));
             game.getPlayer().setY(Integer.parseInt(br.readLine()));
             
+            //Loads bullet
+            int bullet = Integer.parseInt(br.readLine());
             game.bullets.clear();
-            int xBullet = Integer.parseInt(br.readLine());
-            int yBullet = Integer.parseInt(br.readLine());
-            game.bullets.addFirst(new Bullet(xBullet,yBullet,3,10,game));
+            if (bullet > 0) {
+                int xBullet = Integer.parseInt(br.readLine());
+                int yBullet = Integer.parseInt(br.readLine());
+                game.bullets.addFirst(new Bullet(xBullet, yBullet, 3, 10, game));
+            }
             
             // Loads aliens from previous save
             int aliens = Integer.parseInt(br.readLine());
             game.aliens.clear();
-            for(int i = 0; i < aliens; i++){
-                // Reads data
+            for (int i = 0; i < aliens; i++) {
                 int x = Integer.parseInt(br.readLine());
                 int y = Integer.parseInt(br.readLine());
-                int DirX = Integer.parseInt(br.readLine());
+                int xDir = Integer.parseInt(br.readLine());
                 boolean canShoot = Boolean.parseBoolean(br.readLine());
-                // Creates objects from data
-                game.aliens.addFirst(new Alien(x,y,12,12,game));
-                game.aliens.getFirst().setXDir(DirX);
+                
+                game.aliens.addFirst(new Alien(x, y, 12, 12, game));
+                game.aliens.getFirst().setXDir(xDir);
                 game.aliens.get(i).setCanShoot(canShoot);
+                
             }
-            // Loads bombs from previous save
-           game.bombs.clear();
-            int bombs = Integer.parseInt(br.readLine());
-            for (int i = 0; i < bombs; i++){
-                // Read data
-                int x = Integer.parseInt(br.readLine());
-                int y = Integer.parseInt(br.readLine());
-                // create object from data
-                game.bombs.addFirst(new Bomb(x,y,5,5,game));
-            }
+
             // Load explosions from previous game
             game.explosions.clear();
             int explosions = Integer.parseInt(br.readLine());
-            for(int i = 0; i < explosions;i++){
+            for (int i = 0; i < explosions; i++) {
                 // Read data
                 int x = Integer.parseInt(br.readLine());
                 int y = Integer.parseInt(br.readLine());
                 // create object from data
-                game.explosions.addFirst(new Explosion(x,y,12,12,game));
+                game.explosions.addFirst(new Explosion(x, y, 12, 12, game));
             }
             br.close();
 

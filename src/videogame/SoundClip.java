@@ -5,10 +5,6 @@
  */
 package videogame;
 
-/**
- *
- * @author eugenio
- */
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.AudioInputStream;
@@ -17,13 +13,17 @@ import javax.sound.sampled.AudioSystem;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * 
+ * @author eugenio
+ */
 public class SoundClip {
 
-    private AudioInputStream sample;
-    private Clip clip;
-    private boolean looping = false;
-    private int repeat = 0;
-    private String filename = "";
+    private AudioInputStream sample; // To store audio input
+    private Clip clip;               // To store a clip
+    private boolean looping = false; // To allow th eaudio loop
+    private int repeat = 0;          // To store the count of repetitions
+    private String filename = "";    // To store the name of the file
 
     /**
      * Constructor default

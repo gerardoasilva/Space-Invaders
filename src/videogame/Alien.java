@@ -59,6 +59,14 @@ public class Alien extends Item{
         return bomb;
     }
     
+    public int getBombX() {
+        return bomb.getX();
+    }
+    
+    public int getBombY() {
+        return bomb.getY();
+    }
+    
     public boolean canShoot() {
         return canShoot;
     }
@@ -86,6 +94,14 @@ public class Alien extends Item{
     
     public void setBomb(Bomb bomb) {
         this.bomb = bomb;
+    }
+    
+    public void setBombX(int bombX) {
+        bomb.setX(bombX);
+    }
+    
+    public void setBombY(int bombY) {
+        bomb.setY(bombY);
     }
     
     public void canShoot(boolean canShoot) {
