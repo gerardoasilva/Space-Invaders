@@ -177,7 +177,7 @@ public class Game implements Runnable {
                 
                 // Check if alien can shoot
                 if (alien.canShoot() && probability == 5) {
-                    Bomb bomb = new Bomb(alien.getX(), alien.getY(), 5, 5, this);
+                    Bomb bomb = new Bomb(alien.getX(), alien.getY(), 5, 10, this);
                     bombs.add(bomb);
                     alien.canShoot(false);
                 }
