@@ -183,7 +183,6 @@ public class Game implements Runnable {
                     alien.canShoot(false);
                 }*/
 
-               
                 if (((int)(Math.random() * 15)) == 5 && alien.getBomb().isDead()) {
                     alien.getBomb().isDead(false);
                     alien.getBomb().setX(alien.getX()+alien.getWidth()/2);
