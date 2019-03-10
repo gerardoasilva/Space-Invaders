@@ -28,14 +28,15 @@ public class Game implements Runnable {
     private Thread thread;          // thread to create the game
     private boolean running;        // to set the game
     private Player player;          // to use a player
-    private LinkedList<Bullet> bullets; // to store the bullets
-    private LinkedList<Alien> aliens;  // to store the aliens
-    private LinkedList<Bomb> bombs; // to store the bombs
-    private LinkedList<Explosion> explosions; // to store the explosions
+    public LinkedList<Bullet> bullets; // to store the bullets
+    public LinkedList<Alien> aliens;  // to store the aliens
+    public LinkedList<Bomb> bombs; // to store the bombs
+    public LinkedList<Explosion> explosions; // to store the explosions
     private KeyManager keyManager;  // to manage the keyboard
     private boolean ingame = true;  // flag for game state
     private boolean win = false;    // flag for game won
     private int probability;
+    private SaveLoad saveLoad;
     
     
     /**
@@ -66,6 +67,15 @@ public class Game implements Runnable {
     
     public int getHeight() {
         return height;
+    }
+    public Player getPlayer(){
+        return player;
+    }
+    public int getAliens(){
+        return aliens.size();
+    }
+    public int getBombs(){
+        return bombs.size();
     }
     
     /**
@@ -121,10 +131,17 @@ public class Game implements Runnable {
         return keyManager;
     }
     
-    private void tick() {
+    private void tick() {            
+        keyManager.tick();
+
+        if(keyManager.save){
+            saveLoad.saveGame();
+        }
+        if(keyManager.load){
+            saveLoad.loadGame();
+        }
         
         if(ingame || win) {
-            keyManager.tick();
             
             // Restart Game
         if(keyManager.restart){

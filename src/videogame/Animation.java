@@ -13,12 +13,17 @@ import java.awt.image.BufferedImage;
  */
 public class Animation {
     
-    private int speed;
-    private int index;
-    private long lastTime;
-    private long timer;
-    private BufferedImage[] frames;
+    private int speed;      // To store the speed for the animation
+    private int index;      // To store the index of the animation
+    private long lastTime;  // To store last time of the animation
+    private long timer;     // To store the timer
+    private BufferedImage[] frames; // To store the frames for the animation
     
+    /**
+     * Constructor of animation
+     * @param frames
+     * @param speed 
+     */
     public Animation(BufferedImage[]frames, int speed){
         this.frames = frames;
         this.speed = speed;
@@ -27,10 +32,17 @@ public class Animation {
         lastTime = System.currentTimeMillis();
     }
     
+    /**
+     * To get the current frame of the animation
+     * @return frames[index]
+     */
     public BufferedImage getCurrentFrame(){
         return frames[index];
     }
     
+    /**
+     * Runs the animation
+     */
     public void tick(){
        timer += System.currentTimeMillis() - lastTime;
        lastTime = System.currentTimeMillis();

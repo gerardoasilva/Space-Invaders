@@ -11,13 +11,21 @@ import java.awt.Graphics;
  *
  * @author eugenio
  */
-public class Explosion extends Item{
-    private Animation explode;
-    private int timer;
-    private int width;
-    private int height;
-    private Game game;
+public class Explosion extends Item {
+    private Animation explode;  // To store the animation
+    private int timer;  // To store the timer for animation
+    private int width;  // To store width of animation
+    private int height; // To store height of animation
+    private Game game;  // To store game for aimation
 
+    /**
+     * Constructor for animaton
+     * @param x sets initial x
+     * @param y sets initial y
+     * @param width sets width
+     * @param height sets height 
+     * @param game sets game
+     */
     public Explosion(int x, int y, int width, int height, Game game) {
         super(x, y);
         this.width = width;
@@ -27,10 +35,17 @@ public class Explosion extends Item{
         this.timer = 20;
     }
     
+    /**
+     * Getter for timer
+     * @return 
+     */
     public int getTimer(){
         return timer;
     }
 
+    /**
+     * Runs animation
+     */
     @Override
     public void tick() {
         explode.tick();

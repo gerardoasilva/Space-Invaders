@@ -14,10 +14,10 @@ import java.awt.Rectangle;
  */
 public class Bomb extends Item {
 
-    private int width;  // to store width
-    private int height; // to store height
-    private Game game;  // to store the game 
-    private boolean dead; // to know if the bomb exists in the game
+    private int width;      // to store width
+    private int height;     // to store height
+    private Game game;      // to store the game 
+    private boolean dead;   // to know if the bomb exists in the game
     private boolean probability; // to store the probability of shooting
     
     /**
@@ -36,27 +36,50 @@ public class Bomb extends Item {
         dead = true;
     }
 
-    // Getters and setters
+    /**
+     * To get the width of bomb
+     * @return 
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * To get height of bomb
+     * @return 
+     */
     public int getHeight() {
         return height;
     }
     
+    /**
+     * To know if bomb exists in the game
+     * @return 
+     */
     public boolean isDead() {
         return dead;
     }
     
+    /**
+     * To set width of bomb
+     * @param width 
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * To set height of bomb
+     * @param height 
+     */
     public void setHeight(int height) {
         this.height = height;
     }
 
+    /**
+     * To determine if bomb exists in the game
+     * @param dead 
+     */
     public void isDead(boolean dead) {
         this.dead = dead;
     }

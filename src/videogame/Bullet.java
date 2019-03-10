@@ -16,7 +16,7 @@ import java.awt.Rectangle;
 public class Bullet extends Item{
     private int width;  // to store width 
     private int height; // to store height 
-    private Game game;  // 
+    private Game game;  // to store the game where it runs
 
     /**
      * Constructor of Bullet object
@@ -33,18 +33,34 @@ public class Bullet extends Item{
         this.game = game;
     }
 
-    // Getters and setters of attributes
+    /**
+     * To get width of bullet
+     * @return width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * To get height of bullet
+     * @return height
+     */
     public int getHeight() {
         return height;
     }
+    
+    /**
+     * To set width of bullet
+     * @param width 
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * To set height of bullet
+     * @param height 
+     */
     public void setHeight(int height) {
         this.height = height;
     }
@@ -59,6 +75,10 @@ public class Bullet extends Item{
         y -= 4;
     }
 
+    /**
+     * Method that gets the perimeter of th einstance
+     * @return Rectangle
+     */
     public Rectangle getPerimeter() {
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
