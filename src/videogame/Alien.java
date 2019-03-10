@@ -29,6 +29,7 @@ public class Alien extends Item{
         this.width = width;
         this.height = height;
         this.game = game;
+        bomb = new Bomb(getX()+getWidth()/2-5, getY(), 5, 5, game);
         explosion = new Animation(Assets.explosion, 500);
         canShoot = true;
     }
@@ -43,6 +44,10 @@ public class Alien extends Item{
     
     public int getXDir() {
         return xDir;
+    }
+    
+    public Bomb getBomb() {
+        return bomb;
     }
     
     public boolean canShoot() {
@@ -64,6 +69,10 @@ public class Alien extends Item{
     
     public void setXDir(int xDir) {
         this.xDir = xDir;
+    }
+    
+    public void setBomb(Bomb bomb) {
+        this.bomb = bomb;
     }
     
     public void canShoot(boolean canShoot) {
