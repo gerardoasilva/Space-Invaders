@@ -54,6 +54,10 @@ public class Alien extends Item{
         return canShoot;
     }
     
+    public void setCanShoot(boolean cS){
+        canShoot = cS;
+    }
+    
 //    public void setMoveLeft(boolean state){
 //        moveLeft = state;
 //    }
