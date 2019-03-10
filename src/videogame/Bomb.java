@@ -82,6 +82,8 @@ public class Bomb extends Item {
     // Loop that draws object bomb
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.bomb, getX(), getY(), getWidth(), getHeight(), null);
+        if (!isDead()) {
+            g.drawImage(Assets.bomb, getX(), getY(), getWidth(), getHeight(), null);
+        } 
     }
 }
