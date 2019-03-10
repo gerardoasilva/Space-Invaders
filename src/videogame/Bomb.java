@@ -17,6 +17,8 @@ public class Bomb extends Item {
     private int width;  // to store width
     private int height; // to store height
     private Game game;  // to store the game 
+    private boolean dead; // to know if the bomb exists in the game
+    private boolean probability; // to store the probability of shooting
     
     /**
      * Constructor of Bomb oject
@@ -31,6 +33,7 @@ public class Bomb extends Item {
         this.width = width;
         this.height = height;
         this.game = game;
+        dead = false;
     }
 
     // Getters and setters
@@ -42,6 +45,10 @@ public class Bomb extends Item {
         return height;
     }
     
+    public boolean isDead() {
+        return dead;
+    }
+    
     public void setWidth(int width) {
         this.width = width;
     }
@@ -50,10 +57,21 @@ public class Bomb extends Item {
         this.height = height;
     }
 
+    public void isDead(boolean dead) {
+        this.dead = dead;
+    }
+    
     // Loop that runs all the time
     @Override
     public void tick() {
-        setY(getY()+1);
+        if (!isDead()) {
+            
+            if (getY()+getHeight() > 290) {
+                isDead(true);
+            }
+            // Moves the bomb constantly
+            setY(getY()+1);
+        }
     }
 
     // Creates a rectangle of the object
