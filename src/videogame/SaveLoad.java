@@ -34,8 +34,11 @@ public class SaveLoad {
             fw.write(String.valueOf(game.getPlayer().getX()) + "\n");
             fw.write(String.valueOf(game.getPlayer().getY()) + "\n");
             
+            fw.write(String.valueOf(game.bullets.size()) + "\n");
+            if(!game.bullets.isEmpty()){
             fw.write(String.valueOf(game.bullets.getFirst().getX()) + "\n");
             fw.write(String.valueOf(game.bullets.getFirst().getY()) + "\n");
+            }
             
             fw.write(String.valueOf(game.getAliens())+ "\n");
             for (int i = 0; i < game.getAliens(); i++) {
@@ -72,11 +75,13 @@ public class SaveLoad {
             game.getPlayer().setX(Integer.parseInt(br.readLine()));
             game.getPlayer().setY(Integer.parseInt(br.readLine()));
             
+            int bullet = Integer.parseInt(br.readLine());
             game.bullets.clear();
+            if(bullet > 0){
             int xBullet = Integer.parseInt(br.readLine());
             int yBullet = Integer.parseInt(br.readLine());
             game.bullets.addFirst(new Bullet(xBullet,yBullet,3,10,game));
-            
+            }
             // Loads aliens from previous save
             int aliens = Integer.parseInt(br.readLine());
             game.aliens.clear();

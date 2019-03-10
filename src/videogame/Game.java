@@ -55,6 +55,7 @@ public class Game implements Runnable {
         bullets = new LinkedList<>();
         bombs = new LinkedList<>();
         explosions = new LinkedList<>();
+        saveLoad = new SaveLoad(this);
     }
     
     // Getters 
@@ -347,9 +348,5 @@ public class Game implements Runnable {
             }           
         }
     }
-
- 
-    
-
 
 }
