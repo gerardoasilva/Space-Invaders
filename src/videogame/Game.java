@@ -10,11 +10,13 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import static java.lang.Math.random;
 import java.util.LinkedList;
+import java.util.Random;
 
 /**
  *
- * @author antoniomejorado
+ * @author eugenio
  */
 public class Game implements Runnable {
     private BufferStrategy bs;      // to have several buffers when displaying
@@ -27,15 +29,16 @@ public class Game implements Runnable {
     private boolean running;        // to set the game
     private Player player;          // to use a player
     private LinkedList<Bullet> bullets; // to store the bullets
-    private LinkedList<Enemy> enemies;  // to store the enemies
+    private LinkedList<Alien> aliens;  // to store the aliens
     private LinkedList<Bomb> bombs; // to store the bombs
     private KeyManager keyManager;  // to manage the keyboard
     private boolean ingame = true;  // flag for game state
     private boolean win = false;    // flag for game won
+    private int probability;
     
     
     /**
-     * to create title, width and height and set the game is still not running
+     * Constructor of game 
      * @param title to set the title of the window
      * @param width to set the width of the window
      * @param height  to set the height of the window
@@ -46,39 +49,33 @@ public class Game implements Runnable {
         this.height = height;
         running = false;
         keyManager = new KeyManager();
-        // creating my enemy list
-        enemies = new LinkedList<>();
+        aliens = new LinkedList<>();
         bullets = new LinkedList<>();
         bombs = new LinkedList<>();
     }
-
-    /**
-     * To get the width of the game window
-     * @return an int value with the width
-     */
+    
+    // Getters 
     public int getWidth() {
         return width;
     }
-
-    /**
-     * To get the height of the game window
-     * @return an int value with the height
-     */
+    
     public int getHeight() {
         return height;
     }
     
     /**
-     * initializing the display window of the game
+     * Initializes the display window of the game, player and aliens
      */
     private void init() {
          display = new Display(title, getWidth(), getHeight());  
          Assets.init();
+        
          player = new Player(270, 280, 1, 15, 10, this);
+         
          for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
-                Enemy enemy = new Enemy(150 + 18 * j, 5 + 18 * i,12,12,this);
-                enemies.add(enemy);
+                Alien alien = new Alien(150 + 18 * j, 5 + 18 * i,12,12,this);
+                aliens.add(alien);
             }
          }
          display.getJframe().addKeyListener(keyManager);
@@ -120,51 +117,73 @@ public class Game implements Runnable {
     }
     
     private void tick() {
-        if(ingame || win){
+        
+        if(ingame || win) {
             keyManager.tick();
+            
             // Updating player
             player.tick();
-            // Shoots if no bullets exist
-            if(keyManager.space){
+            
+            // Enables shooting if no bullet exist
+            if (keyManager.space) {
                 if(bullets.isEmpty())
-                    bullets.add(new Bullet(player.x+player.getWidth()/2, player.y-1, 5,5,this));
+                    bullets.add(new Bullet(player.x+player.getWidth()/2-1, player.y-5, 3,10,this));
             }
-            // Updating every enemy
-            for (int i = 0; i < enemies.size(); i++) {
-                Enemy enemy =  enemies.get(i);
-                enemy.tick();
+            
+            // Updating every alien
+            for (int i = 0; i < aliens.size(); i++) {
+                Alien alien =  aliens.get(i);
                 
-                // Check if enemy reached ground level
-                if(enemy.y > 290){
+
+                // Change direction for all aliens when colliding
+                if(alien.getX()  >= getWidth() - 30 && alien.getXDir() != -1) { // Collides with right border
+                    for(int j = 0; j < aliens.size(); j++){
+//                        aliens.get(j).setMoveLeft(true);
+                        aliens.get(j).setXDir(-1);
+                        aliens.get(j).setY(aliens.get(j).getY()+15);
+                    }
+                }
+                
+                if(alien.getX() <= 5 && alien.getXDir() != 1) { // Collides with left border
+                    for(int j = 0; j < aliens.size(); j++){
+//                        aliens.get(j).setMoveLeft(false);
+                        aliens.get(j).setXDir(1);
+                        aliens.get(j).setY(aliens.get(j).getY()+15);
+                    }
+                }
+                
+                // Check if alien reached ground level
+                if(alien.getY()+alien.getHeight() >= 290){
                     ingame = false;
                 }
-                // Check border collison 
-                if(enemy.x <= 0){
-                    // For all enemies hange move left to true
-                    for(int j = 0; j < enemies.size(); j++){
-                        enemies.get(j).setMoveLeft(true);
-                        enemies.get(j).setY(enemies.get(j).getY()+5);
-                    }
-                }
-                if(enemy.x + enemy.getWidth() >= width){
-                    // For all enemies hange move left to false
-                    for(int j = 0; j < enemies.size(); j++){
-                        enemies.get(j).setMoveLeft(false);
-                        enemies.get(j).setY(enemies.get(j).getY()+5);
-                    }
-                }
-                // Checks collision from bullet with enemy
-                if(!bullets.isEmpty())
-                    if(enemy.intersects(bullets.getFirst())){
-                        enemies.remove(i);
+
+                // If bullet collides with alien, remove alien
+                if(!bullets.isEmpty()) // A bullet exists
+                    if(alien.intersects(bullets.getFirst())) {
+                        
+                        //////////////////////////////
+                        // Display explosion animation
+                        //////////////////////////////
+                        aliens.remove(i);
+                        
                         // Check if player has won the game
-                        if(enemies.isEmpty()){
+                        if(aliens.isEmpty()){
                             win = true;
                         }
                         bullets.removeFirst();
                     }
+                
+                //probability = (int) (Math.random() * 15 );
+                
+                Bomb bomb = new Bomb(alien.getX(), alien.getY(), 5, 5, this);
+                bombs.add(bomb);
+                
+                alien.tick();
+                
+                
 
             }
+            
             // Update every bomb
             for (int i = 0; i < bombs.size(); i++){
                 Bomb bomb = bombs.get(i);
@@ -175,7 +194,7 @@ public class Game implements Runnable {
             for(int i = 0; i < bullets.size(); i++){
                 Bullet bullet = bullets.get(i);
                 bullet.tick();
-
+                
             }
         }
     }
@@ -199,25 +218,52 @@ public class Game implements Runnable {
             g.setColor(Color.green);
             g.drawLine(0,290,width,290);
             player.render(g);
-            // Render all enemies
-            for (int i = 0; i < enemies.size(); i++) {
-                Enemy enemy =  enemies.get(i);
-                enemy.render(g);
+//>>>>>>>>>>>>>>>            
+//            // Render all aliens
+//            for (int i = 0; i < aliens.size(); i++) {
+//                Alien alien =  aliens.get(i);
+//                alien.render(g);
+//            }
+//===============
+            for (Alien alien: aliens) {
+                alien.render(g);
             }
+//>>>>>>>>>>>>>>>
+           
+//>>>>>>>>>>>>>>>            
+//            // Render all bombs
+//            for(int i = 0; i < bombs.size(); i++){
+//                Bomb bomb = bombs.get(i);
+//                bomb.render(g);
+//            }
+//==============            
             // Render all bombs
-            for(int i = 0; i < bombs.size(); i++){
-                Bomb bomb = bombs.get(i);
+            for (Bomb bomb : bombs) {
                 bomb.render(g);
             }
-            // Render bullets (1)
-            for(int i = 0; i < bullets.size();i++){
-                Bullet bullet = bullets.get(i);
-                if(bullet.y < 0){
-                    bullets.remove(i);
+//>>>>>>>>>>>>>>>    
+            
+//>>>>>>>>>>>>            
+//            // Render bullets (1)
+//            for(int i = 0; i < bullets.size(); i++){
+//                Bullet bullet = bullets.get(i);
+//                if (bullet.getY() < -bullet.getHeight()){
+//                    bullets.remove(i);
+//                } else {
+//                    bullet.render(g);
+//                }
+//            }
+// ==========
+
+            for (Bullet bullet : bullets) {
+                if (bullet.getY() < -bullet.getHeight()) {
+                    bullets.remove(bullets.getFirst());
                 } else {
                     bullet.render(g);
                 }
             }
+//>>>>>>>>>>>>>>>>>>            
+            
             /*g.setFont(new Font("Arial", Font.PLAIN, 24));
             g.setColor(Color.red);
             g.drawString("Lives: "+lives, 20, 40);
@@ -236,7 +282,7 @@ public class Game implements Runnable {
     }
     
     /**
-     * setting the thread for the game
+     * Setting the thread for the game
      */
     public synchronized void start() {
         if (!running) {
@@ -247,7 +293,7 @@ public class Game implements Runnable {
     }
     
     /**
-     * stopping the thread
+     * Stopping the thread
      */
     public synchronized void stop() {
         if (running) {

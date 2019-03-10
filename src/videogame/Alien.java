@@ -7,24 +7,28 @@ package videogame;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import static java.lang.Math.random;
 
 /**
  *
  * @author eugenio
  */
-public class Enemy extends Item{
+public class Alien extends Item{
 
     private int width;
     private int height;
     private Game game;
-    private int xDir = 2;
-    private boolean moveLeft = true;
+    private int xDir = -1;
+//    private boolean moveLeft = true;
+    private Bomb bomb;
+    private Animation explosion;
     
-    public Enemy(int x, int y, int width, int height, Game game) {
+    public Alien(int x, int y, int width, int height, Game game) {
         super(x, y);
         this.width = width;
         this.height = height;
         this.game = game;
+        explosion = new Animation(Assets.explosion, 500);
     }
 
     public int getWidth() {
@@ -35,9 +39,13 @@ public class Enemy extends Item{
         return height;
     }
     
-    public void setMoveLeft(boolean state){
-        moveLeft = state;
+    public int getXDir() {
+        return xDir;
     }
+    
+//    public void setMoveLeft(boolean state){
+//        moveLeft = state;
+//    }
 
 
     public void setWidth(int width) {
@@ -47,15 +55,28 @@ public class Enemy extends Item{
     public void setHeight(int height) {
         this.height = height;
     }
-
+    
+    public void setXDir(int xDir) {
+        this.xDir = xDir;
+    }
+    
     @Override
     public void tick() {
-        if(moveLeft){
-            x++;
-        } else {
-            x--;
-        }
+//>>>>>>>>>>>>>>>        
+//        if(moveLeft){
+//            x--;
+//        } else {
+//            x++;
+//        }
+//===========
         
+        setX(getX() + xDir);
+//>>>>>>>>>>>>>>>
+    
+    // Randomly create bomb
+    
+
+
     }
 
     public Rectangle getPerimeter() {
@@ -73,6 +94,6 @@ public class Enemy extends Item{
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.enemy, getX(), getY(), getWidth(), getHeight(), null);
+        g.drawImage(Assets.alien, getX(), getY(), getWidth(), getHeight(), null);
     }
 }

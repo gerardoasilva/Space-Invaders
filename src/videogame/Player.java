@@ -10,7 +10,7 @@ import java.awt.Rectangle;
 
 /**
  *
- * @author antoniomejorado
+ * @author eugenio
  */
 public class Player extends Item{
 

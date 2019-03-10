@@ -8,16 +8,24 @@ package videogame;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+
 /**
- *
+ * 
  * @author eugenio
  */
 public class Bullet extends Item{
+    private int width;  // to store width 
+    private int height; // to store height 
+    private Game game;  // 
 
-    private int width;
-    private int height;
-    private Game game;
-
+    /**
+     * Constructor of Bullet object
+     * @param x for horizontal initial position
+     * @param y for vertical initial position
+     * @param width to set width of object
+     * @param height to set height of object
+     * @param game the game where it'll run
+     */
     public Bullet(int x, int y, int width, int height, Game game) {
         super(x, y);
         this.width = width;
@@ -25,6 +33,7 @@ public class Bullet extends Item{
         this.game = game;
     }
 
+    // Getters and setters of attributes
     public int getWidth() {
         return width;
     }
@@ -32,9 +41,6 @@ public class Bullet extends Item{
     public int getHeight() {
         return height;
     }
-
-
-
     public void setWidth(int width) {
         this.width = width;
     }
@@ -44,8 +50,12 @@ public class Bullet extends Item{
     }
     
 
+    /**
+     * Loop that runs all the time
+     */
     @Override
     public void tick() {
+        // moves the bullet up all the time
         y -= 4;
     }
 
@@ -53,8 +63,12 @@ public class Bullet extends Item{
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 
+    /**
+     * renders images in the game
+     * @param g 
+     */
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.bomb, getX(), getY(), getWidth(), getHeight(), null);
+        g.drawImage(Assets.bullet, getX(), getY(), getWidth(), getHeight(), null);
     }
 }

@@ -7,7 +7,7 @@ package videogame;
 
 /**
  *
- * @author antoniomejorado
+ * @author eugenio
  */
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.sound.sampled.LineUnavailableException;
