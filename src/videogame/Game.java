@@ -31,6 +31,7 @@ public class Game implements Runnable {
     private LinkedList<Bullet> bullets; // to store the bullets
     private LinkedList<Alien> aliens;  // to store the aliens
     private LinkedList<Bomb> bombs; // to store the bombs
+    private LinkedList<Explosion> explosions; // to store the explosions
     private KeyManager keyManager;  // to manage the keyboard
     private boolean ingame = true;  // flag for game state
     private boolean win = false;    // flag for game won
@@ -52,6 +53,7 @@ public class Game implements Runnable {
         aliens = new LinkedList<>();
         bullets = new LinkedList<>();
         bombs = new LinkedList<>();
+        explosions = new LinkedList<>();
     }
     
     // Getters 
@@ -164,6 +166,7 @@ public class Game implements Runnable {
                         //////////////////////////////
                         // Display explosion animation
                         //////////////////////////////
+                        explosions.add(new Explosion(aliens.get(i).x, aliens.get(i).y, 12, 12, this));
                         aliens.remove(i);
                         
                         // Check if player has won the game
@@ -173,9 +176,20 @@ public class Game implements Runnable {
                         bullets.removeFirst();
                     }
                 
+<<<<<<< HEAD
                 
                
                 if (((int)(Math.random() * 20)) == 5 && alien.getBomb().isDead()) {
+=======
+                /*// Check if alien can shoot
+                if (alien.canShoot() && probability == 5) {
+                    Bomb bomb = new Bomb(alien.getX(), alien.getY(), 5, 10, this);
+                    bombs.add(bomb);
+                    alien.canShoot(false);
+                }*/
+
+                if (((int)(Math.random() * 15)) == 5 && alien.getBomb().isDead()) {
+>>>>>>> eugenio
                     alien.getBomb().isDead(false);
                     alien.getBomb().setX(alien.getX()+alien.getWidth()/2);
                     alien.getBomb().setY(alien.getY()+alien.getHeight());
@@ -197,6 +211,16 @@ public class Game implements Runnable {
             for(int i = 0; i < bullets.size(); i++){
                 Bullet bullet = bullets.get(i);
                 bullet.tick();
+                
+            }
+            
+            for(int i = 0; i < explosions.size(); i++){
+                Explosion explosion = explosions.get(i);
+                explosion.tick();
+                
+                if(explosions.get(i).getTimer() <= 0){
+                    explosions.remove(i);
+                }
                 
             }
         }
@@ -265,7 +289,10 @@ public class Game implements Runnable {
                     bullet.render(g);
                 }
             }
-//>>>>>>>>>>>>>>>>>>            
+//>>>>>>>>>>>>>>>>>> 
+            for(Explosion explosion : explosions){
+                explosion.render(g);
+            }
             
             /*g.setFont(new Font("Arial", Font.PLAIN, 24));
             g.setColor(Color.red);

@@ -14,11 +14,21 @@ import java.awt.Graphics;
 public class Explosion extends Item{
     private Animation explode;
     private int timer;
+    private int width;
+    private int height;
+    private Game game;
 
-    public Explosion(int x, int y) {
+    public Explosion(int x, int y, int width, int height, Game game) {
         super(x, y);
+        this.width = width;
+        this.height = height;
+        this.game = game;
         this.explode = new Animation(Assets.explosion,100);
-        this.timer = 100;
+        this.timer = 20;
+    }
+    
+    public int getTimer(){
+        return timer;
     }
 
     @Override

@@ -29,6 +29,10 @@ public class Assets {
         alien = ImageLoader.loadImage("/images/alien.png");
         bullet = ImageLoader.loadImage("/images/bullet1.png");
         bomb = ImageLoader.loadImage("/images/laser.png");
+<<<<<<< HEAD
+=======
+
+>>>>>>> eugenio
         
         explosion = new BufferedImage[6];
         explosion[0] = ImageLoader.loadImage("/images/explosion1.png");

@@ -21,7 +21,7 @@ public class Bomb extends Item {
     private boolean probability; // to store the probability of shooting
     
     /**
-     * Constructor of Bomb oject
+     * Constructor of Bomb object
      * @param x for horizontal initial position
      * @param y for vertical initial position 
      * @param width to set width of object
