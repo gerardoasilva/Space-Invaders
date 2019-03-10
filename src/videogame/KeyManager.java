@@ -17,6 +17,7 @@ public class KeyManager implements KeyListener {
     public boolean left;    // flag to move left the player
     public boolean right;   // flag to move right the player
     public boolean space;   // flag to shoot bullet
+    public boolean restart = false; // flag to restar the game
 
     private boolean keys[];  // to store all the flags for every key
     
@@ -32,6 +33,11 @@ public class KeyManager implements KeyListener {
     public void keyPressed(KeyEvent e) {
         // set true to every key pressed
         keys[e.getKeyCode()] = true;
+        
+        // Restart Game
+        if (e.getKeyCode() == KeyEvent.VK_R){
+            restart = true;
+        }
     }
 
     @Override

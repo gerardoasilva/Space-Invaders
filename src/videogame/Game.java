@@ -56,7 +56,10 @@ public class Game implements Runnable {
         explosions = new LinkedList<>();
     }
     
-    // Getters 
+    /**
+     * gets the width
+     * @return 
+     */
     public int getWidth() {
         return width;
     }
@@ -123,6 +126,19 @@ public class Game implements Runnable {
         if(ingame || win) {
             keyManager.tick();
             
+            // Restart Game
+        if(keyManager.restart){
+            player = new Player(270, 280, 1, 15, 10, this);
+            aliens.clear();
+            for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 6; j++) {
+                Alien alien = new Alien(150 + 18 * j, 5 + 18 * i,12,12,this);
+                aliens.add(alien);
+            }
+         }
+            keyManager.restart = false;
+        }
+            
             // Updating player
             player.tick();
             
@@ -163,9 +179,6 @@ public class Game implements Runnable {
                 if(!bullets.isEmpty()) // A bullet exists
                     if(alien.intersects(bullets.getFirst())) {
                         
-                        //////////////////////////////
-                        // Display explosion animation
-                        //////////////////////////////
                         explosions.add(new Explosion(aliens.get(i).x, aliens.get(i).y, 12, 12, this));
                         aliens.remove(i);
                         
@@ -176,20 +189,8 @@ public class Game implements Runnable {
                         bullets.removeFirst();
                     }
                 
-<<<<<<< HEAD
-                
-               
-                if (((int)(Math.random() * 20)) == 5 && alien.getBomb().isDead()) {
-=======
-                /*// Check if alien can shoot
-                if (alien.canShoot() && probability == 5) {
-                    Bomb bomb = new Bomb(alien.getX(), alien.getY(), 5, 10, this);
-                    bombs.add(bomb);
-                    alien.canShoot(false);
-                }*/
-
+                // Creates randomly alien's bomb
                 if (((int)(Math.random() * 15)) == 5 && alien.getBomb().isDead()) {
->>>>>>> eugenio
                     alien.getBomb().isDead(false);
                     alien.getBomb().setX(alien.getX()+alien.getWidth()/2);
                     alien.getBomb().setY(alien.getY()+alien.getHeight());
@@ -197,16 +198,8 @@ public class Game implements Runnable {
                 alien.tick();
                 alien.getBomb().tick();
                 
-
             }
-            
-            // Update every bomb
-            for (int i = 0; i < bombs.size(); i++){
-                Bomb bomb = bombs.get(i);
-                bomb.tick();
-                
-            }
-            
+                   
             // Update every bullet
             for(int i = 0; i < bullets.size(); i++){
                 Bullet bullet = bullets.get(i);
@@ -223,9 +216,14 @@ public class Game implements Runnable {
                 }
                 
             }
+            
+            
         }
     }
     
+    /**
+     * renders every instance in the game
+     */
     private void render() {
         // get the buffer strategy from the display
         bs = display.getCanvas().getBufferStrategy();
