@@ -173,14 +173,16 @@ public class Game implements Runnable {
                         bullets.removeFirst();
                     }
                 
-                //probability = (int) (Math.random() * 15 );
+                probability = (int) (Math.random() * 15 );
                 
-                Bomb bomb = new Bomb(alien.getX(), alien.getY(), 5, 5, this);
-                bombs.add(bomb);
+                // Check if alien can shoot
+                if (alien.canShoot() && probability == 5) {
+                    Bomb bomb = new Bomb(alien.getX(), alien.getY(), 5, 5, this);
+                    bombs.add(bomb);
+                    alien.canShoot(false);
+                }
                 
                 alien.tick();
-                
-                
 
             }
             
@@ -188,7 +190,7 @@ public class Game implements Runnable {
             for (int i = 0; i < bombs.size(); i++){
                 Bomb bomb = bombs.get(i);
                 bomb.tick();
-
+                
             }
             // Update every bullet
             for(int i = 0; i < bullets.size(); i++){

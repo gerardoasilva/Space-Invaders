@@ -22,6 +22,7 @@ public class Alien extends Item{
 //    private boolean moveLeft = true;
     private Bomb bomb;
     private Animation explosion;
+    private boolean canShoot;
     
     public Alien(int x, int y, int width, int height, Game game) {
         super(x, y);
@@ -29,6 +30,7 @@ public class Alien extends Item{
         this.height = height;
         this.game = game;
         explosion = new Animation(Assets.explosion, 500);
+        canShoot = true;
     }
 
     public int getWidth() {
@@ -41,6 +43,10 @@ public class Alien extends Item{
     
     public int getXDir() {
         return xDir;
+    }
+    
+    public boolean canShoot() {
+        return canShoot;
     }
     
 //    public void setMoveLeft(boolean state){
@@ -58,6 +64,10 @@ public class Alien extends Item{
     
     public void setXDir(int xDir) {
         this.xDir = xDir;
+    }
+    
+    public void canShoot(boolean canShoot) {
+        this.canShoot = canShoot;
     }
     
     @Override
